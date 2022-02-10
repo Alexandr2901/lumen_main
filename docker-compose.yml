@@ -7,7 +7,8 @@ services:
       - "8000:8000"
     volumes:
       - .:/var/www/html
-      - /var/www/html/vendor/
+      - .:/src
+    #      - /var/www/html/vendor/
     build: .
     command: php -S lumen:8000 -t public
     restart: always
