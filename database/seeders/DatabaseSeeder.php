@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         Tag::factory()->count(10)->create();
         Category::factory()->count(10)->create();
         User::factory()->count(10)->create();
+        User::factory()->create(['email' => 'admin','password'=>'admin']);
         News::factory()->count(10)->create();
 
 

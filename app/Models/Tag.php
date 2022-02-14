@@ -21,9 +21,8 @@ class Tag extends Model
      *
      * @var array
      */
-//    protected $fillable = [
-//        'name', 'email',
-//    ];
+
+    protected $guarded = [];
 
     /**
      * The attributes excluded from the model's JSON form.

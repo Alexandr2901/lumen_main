@@ -22,13 +22,7 @@ class News extends Model
 //        'name', 'email',
 //    ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-    ];
+    protected $guarded = [];
 
     public function users()
     {
