@@ -14,8 +14,8 @@ class CreateNewsUserTable extends Migration
     public function up()
     {
         Schema::create('news_user', function (Blueprint $table) {
-            $table->foreignId('news_id')->constrained('news');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('news_id')->constrained('news')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         });
     }
 
