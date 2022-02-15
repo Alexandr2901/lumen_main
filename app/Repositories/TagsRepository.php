@@ -2,12 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\BaseRepositoryContract;
-use App\Contracts\Repositories\NewsRepositoryContract;
 use App\Contracts\Repositories\TagRepositoryContract;
-use App\Models\News;
 use App\Models\Tag;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class TagsRepository extends BaseRepository implements TagRepositoryContract
@@ -22,9 +18,9 @@ class TagsRepository extends BaseRepository implements TagRepositoryContract
         $collection = collect();
         foreach ($data as $item) {
             $collection->push($this->model->firstOrCreate([
-                'name'=>$item
+                'name' => $item
             ]));
         }
-return $collection;
+        return $collection;
     }
 }

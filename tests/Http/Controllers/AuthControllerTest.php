@@ -14,13 +14,13 @@ class AuthControllerTest extends TestCase
     {
         $email = 'liahsldf1';
         User::factory()->create(['email' => $email,
-            'password'=> 'password']);
-        $this->post( '/api/auth/login',[
+            'password' => 'password']);
+        $this->post('/api/auth/login', [
             'email' => $email,
-            'password'=> 'password',
+            'password' => 'password',
         ]);
         $this->seeJsonStructure([
-            'data'=>[
+            'data' => [
                 'success',
                 'token',
             ]]);
@@ -30,26 +30,26 @@ class AuthControllerTest extends TestCase
     public function testLogOutSuccess()
     {
         $user = User::factory()->create();
-        $this->actingAs($user)->post( '/api/auth/logout');
-                        $this->assertTrue((bool)$this->response->content());
+        $this->actingAs($user)->post('/api/auth/logout');
+        $this->assertTrue((bool)$this->response->content());
 
     }
 
     public function testStoreSuccess()
     {
-        $this->post( '/api/auth',[
+        $this->post('/api/auth', [
             'name' => 'required|string',
             'email' => 'example@mail.com',
-            'password'=> 'password',
+            'password' => 'password',
         ]);
 
         $this->seeJsonStructure([
-            'data'=>['user'=>[
+            'data' => ['user' => [
                 'name',
                 'created_at',
                 'updated_at',
                 'id',
-            ],'token'
+            ], 'token'
             ]]);
     }
 }

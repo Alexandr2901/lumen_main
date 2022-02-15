@@ -20,11 +20,13 @@ class NewsPolicy
         //
     }
 
-    public function update(User $user, News $news) {
+    public function update(User $user, News $news)
+    {
         return $news->users->pluck('id')->contains($user->id);
     }
 
-    public function destroy(User $user, News $news) {
+    public function destroy(User $user, News $news)
+    {
         return $news->users->pluck('id')->contains($user->id);
     }
 }

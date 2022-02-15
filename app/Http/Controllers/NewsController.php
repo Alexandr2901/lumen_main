@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\NewsRepositoryContract;
-//use App\Http\Requests\News\StoreRequest;
 use App\Contracts\Services\NewsServiceContract;
 use App\Http\Requests\News\StoreRequest;
 use App\Http\Requests\News\UpdateRequest;
 use App\Http\Resources\NewsResource;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+
+//use App\Http\Requests\News\StoreRequest;
 
 class NewsController extends Controller
 {
@@ -38,10 +37,10 @@ class NewsController extends Controller
         );
     }
 
-    public function update(int $id,UpdateRequest $request)
+    public function update(int $id, UpdateRequest $request)
     {
         $this->authorize('update', $this->newsRepository->find($id));
-        return $this->newsService->update($request->validated(),$id);
+        return $this->newsService->update($request->validated(), $id);
     }
 
     public function destroy(int $id)

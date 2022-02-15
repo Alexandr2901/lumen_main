@@ -12,7 +12,7 @@ class StoreRequest extends AbstractFormRequest
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
 //            'email' => 'required',
-            'password'=> 'required|min:3',
+            'password' => 'required|min:3',
         ];
     }
 }

@@ -3,9 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Category;
-use App\Models\News;
-use App\Models\Tag;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CategoryFactory extends Factory
@@ -29,14 +26,15 @@ class CategoryFactory extends Factory
 //            'email' => $this->faker->unique()->safeEmail,
         ];
     }
+
     public function configure()
     {
         return $this->afterCreating(function (Category $category) {
             $parent = Category::inRandomOrder()
                 ->first();
-            if (random_int(0,1) && $parent) {
+            if (random_int(0, 1) && $parent) {
                 $category->parent()->associate(
-                   $parent
+                    $parent
                 );
                 $category->save();
             }

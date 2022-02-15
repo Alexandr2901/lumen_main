@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Contracts\Repositories\BaseRepositoryContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 
 class BaseRepository implements BaseRepositoryContract
 {

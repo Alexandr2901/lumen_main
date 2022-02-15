@@ -2,12 +2,10 @@
 
 namespace App\Providers;
 
-use App\Contracts\Repositories\BaseRepositoryContract;
 use App\Contracts\Repositories\NewsRepositoryContract;
 use App\Contracts\Repositories\TagRepositoryContract;
 use App\Contracts\Repositories\UserRepositoryContract;
 use App\Contracts\Services\NewsServiceContract;
-use App\Repositories\BaseRepository;
 use App\Repositories\NewsRepository;
 use App\Repositories\TagsRepository;
 use App\Repositories\UserRepository;

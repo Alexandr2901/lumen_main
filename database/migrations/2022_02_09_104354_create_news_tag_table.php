@@ -16,7 +16,7 @@ class CreateNewsTagTable extends Migration
         Schema::create('news_tag', function (Blueprint $table) {
             $table->foreignId('news_id')->constrained('news')->onDelete('cascade');
             $table->foreignId('tag_id')->constrained('tags')->onDelete('cascade');
-    });
+        });
     }
 
     /**

@@ -3,14 +3,14 @@
 namespace App\Providers;
 
 use App\Http\Requests\AbstractFormRequest;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Validation\ValidatesWhenResolved;
+use Illuminate\Support\ServiceProvider;
 
 class RestProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__.'/lang', 'kia-rest');
+        $this->loadTranslationsFrom(__DIR__ . '/lang', 'kia-rest');
 
         $this->app->afterResolving(ValidatesWhenResolved::class, function ($resolved) {
             $resolved->validateResolved();

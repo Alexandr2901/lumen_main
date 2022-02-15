@@ -8,7 +8,6 @@ use App\Http\Requests\User\StoreRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -19,6 +18,7 @@ class AuthController extends Controller
     {
         $this->userRepository = $userRepository;
     }
+
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
@@ -34,11 +34,12 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(LoginRequest $request) {
+    public function login(LoginRequest $request)
+    {
         $user = User::where('email', $request->input('email'))->first();
 
-        if($user === null) {
-            return response()->json(['error' => true, 'message' =>  "user not found!"], 401);
+        if ($user === null) {
+            return response()->json(['error' => true, 'message' => "user not found!"], 401);
         }
 
         if (Hash::check($request->input('password'), $user->password)) {
@@ -48,7 +49,7 @@ class AuthController extends Controller
             $user->save();
 
             return response()->json(['data' => [
-                'success' => true,'token' => $user->remember_token]], 200);
+                'success' => true, 'token' => $user->remember_token]], 200);
 
         }
         return response()->json(['error' => true, 'message' => "Invalid Credential"], 401);

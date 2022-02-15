@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\ValidatesWhenResolved;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidatesWhenResolvedTrait;
+
 //use Kia\Rest\Exceptions\ValidationException;
 //use Kia\Rest\Exceptions\AuthorizationException;
 
@@ -35,6 +36,29 @@ abstract class AbstractFormRequest extends Request implements ValidatesWhenResol
      * @var \Illuminate\Contracts\Validation\Validator
      */
     protected $validator;
+
+    /**
+     * Get the validated data from the request.
+     *
+     * @return array
+     */
+    public function validated()
+    {
+        return $this->validator->validated();
+    }
+
+    /**
+     * Set the container implementation.
+     *
+     * @param \Illuminate\Contracts\Container\Container $container
+     * @return $this
+     */
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
+
+        return $this;
+    }
 
     /**
      * Get the validator instance for the request.
@@ -65,33 +89,9 @@ abstract class AbstractFormRequest extends Request implements ValidatesWhenResol
     }
 
     /**
-     * Create the default validator instance.
-     *
-     * @param  \Illuminate\Contracts\Validation\Factory  $factory
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function createDefaultValidator(ValidationFactory $factory)
-    {
-        return $factory->make(
-            $this->validationData(), $this->container->call([$this, 'rules']),
-            $this->messages(), $this->attributes()
-        );
-    }
-
-    /**
-     * Get data to be validated from the request.
-     *
-     * @return array
-     */
-    public function validationData()
-    {
-        return $this->all();
-    }
-
-    /**
      * Handle a failed validation attempt.
      *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @param \Illuminate\Contracts\Validation\Validator $validator
      * @return void
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -102,17 +102,17 @@ abstract class AbstractFormRequest extends Request implements ValidatesWhenResol
 //    }
 
     /**
-     * Determine if the request passes the authorization check.
+     * Create the default validator instance.
      *
-     * @return bool
+     * @param \Illuminate\Contracts\Validation\Factory $factory
+     * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function passesAuthorization()
+    protected function createDefaultValidator(ValidationFactory $factory)
     {
-        if (method_exists($this, 'authorize')) {
-            return $this->container->call([$this, 'authorize']);
-        }
-
-        return true;
+        return $factory->make(
+            $this->validationData(), $this->container->call([$this, 'rules']),
+            $this->messages(), $this->attributes()
+        );
     }
 
     /**
@@ -128,13 +128,20 @@ abstract class AbstractFormRequest extends Request implements ValidatesWhenResol
 //    }
 
     /**
-     * Get the validated data from the request.
+     * Get data to be validated from the request.
      *
      * @return array
      */
-    public function validated()
+    public function validationData()
     {
-        return $this->validator->validated();
+        return $this->all();
+    }
+
+    public function all($keys = null)
+    {
+        $data = parent::all($keys);
+        $data['dynamicPartUrl'] = $this->route()[2] ?? null;
+        return $data;
     }
 
     /**
@@ -160,7 +167,7 @@ abstract class AbstractFormRequest extends Request implements ValidatesWhenResol
     /**
      * Set the Validator instance.
      *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @param \Illuminate\Contracts\Validation\Validator $validator
      * @return $this
      */
     public function setValidator(Validator $validator)
@@ -171,22 +178,16 @@ abstract class AbstractFormRequest extends Request implements ValidatesWhenResol
     }
 
     /**
-     * Set the container implementation.
+     * Determine if the request passes the authorization check.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
-     * @return $this
+     * @return bool
      */
-    public function setContainer(Container $container)
+    protected function passesAuthorization()
     {
-        $this->container = $container;
+        if (method_exists($this, 'authorize')) {
+            return $this->container->call([$this, 'authorize']);
+        }
 
-        return $this;
-    }
-
-    public function all($keys = null)
-    {
-        $data = parent::all($keys);
-        $data['dynamicPartUrl'] = $this->route()[2] ?? null;
-        return $data;
+        return true;
     }
 }
