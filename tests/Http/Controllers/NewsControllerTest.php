@@ -31,11 +31,14 @@ class NewsControllerTest extends TestCase
 
     public function testStoreSuccess()
     {
-        $this->post( '/api/news/',[
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post( '/api/news/',[
             'title'=>'qwe',
             'text'=>'asd',
             'category_id'=>3,
-            'tags'=>['sdf','ghj']
+            'tags'=>['sdf','ghj'],
+            'users'=>[1,2,3],
         ]);
 
         $this->seeJsonStructure([
@@ -44,7 +47,8 @@ class NewsControllerTest extends TestCase
                 'text',
                 'category',
                 'id',
-                'tags'=>['*'=>['id', 'name']]
+                'tags'=>['*'=>['id', 'name']],
+                'users'=>['*'=>['id', 'name']],
             ]]);
 
         $this->seeJson([
@@ -64,7 +68,8 @@ class NewsControllerTest extends TestCase
                 'text',
                 'category',
                 'id',
-                'tags'=>['*'=>['id', 'name']]
+                'tags'=>['*'=>['id', 'name']],
+                'users'=>['*'=>['id', 'name']],
             ]
         ]);
 
@@ -78,22 +83,30 @@ class NewsControllerTest extends TestCase
 
     public function testUpdateSuccess()
     {
+        $user = User::factory()->create();
         $news = News::factory()->create();
-        $this->put( '/api/news/'.$news->id,[
+
+        $user->news()->save($news);
+//        var_dump($user->news()->first()->title);
+//        $news->users()->syncWithoutDetaching($user->id);
+        $this->actingAs($user)->put( '/api/news/'.$news->id,[
             'title'=>'test',
             'text'=>'test',
         ]);
 
         $news = News::find($news->id);
 
-        $this->assertEquals($news->title,'test');
-        $this->assertEquals($news->text,'test');
+        $this->assertEquals('test',$news->title);
+        $this->assertEquals('test',$news->text);
     }
 
     public function testDestroySuccess()
     {
+        $user = User::factory()->create();
         $news = News::factory()->create();
-        $this->delete( '/api/news/'.$news->id);
+        $user->news()->save($news);
+
+        $this->actingAs($user)->delete( '/api/news/'.$news->id);
         try {
             News::findOrFail($news->id);
         } catch (ModelNotFoundException $ex) {

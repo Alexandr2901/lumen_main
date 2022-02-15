@@ -17,21 +17,23 @@
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'news'], function () use ($router) {
-//        $router->get('/post/{id}', ['middleware' => 'auth', function (Request $request, $id) {
-
         $router->get('/', 'NewsController@index');
-//        $router->post('/', 'NewsController@store');
-//        $router->post('/', ['middleware' => 'auth','NewsController@store']);
-        $router->post('/', 'NewsController@store');
-
+        $router->post('/', ['middleware' => 'auth','uses' =>'NewsController@store']);
         $router->get('/{id}', 'NewsController@show');
-        $router->put('/{id}', 'NewsController@update');
-        $router->delete('/{id}', 'NewsController@destroy');
+        $router->put('/{id}', ['middleware' => 'auth','uses' =>'NewsController@update']);
+        $router->delete('/{id}', ['middleware' => 'auth','uses' =>'NewsController@destroy']);
     });
     $router->group(['prefix' => 'auth'], function () use ($router) {
-        $router->post('/login', 'UserController@login');
-//        $router->post('/', ['middleware' => 'auth','NewsController@store']);
-        $router->get('/{id}', 'UserController@show');
+        $router->post('/login', 'AuthController@login');
+        $router->post('/', 'AuthController@store');
+        $router->post('/logout', ['middleware' => 'auth','uses' =>'AuthController@logOut']);
+    });
+        $router->group(['prefix' => 'user'], function () use ($router) {
+//        $router->post('/login', 'UserController@login');
+//        $router->post('/logout', ['middleware' => 'auth','uses' =>'UserController@logOut']);
+//        $router->post('/login', 'UserController@login');
+//        $router->post('/', 'UserController@store');
+//        $router->get('/{id}', 'UserController@show');
 //        $router->put('/{id}', 'NewsController@update');
 //        $router->delete('/{id}', 'NewsController@destroy');
     });

@@ -16,7 +16,8 @@ class UpdateRequest extends AbstractFormRequest
             'text'=>'string',
             'category_id'=>'int',
             'tags.*'=>'string',
-            ];
+            'users.*'=>'int',
+        ];
     }
 
 }
