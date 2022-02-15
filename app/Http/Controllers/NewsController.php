@@ -21,7 +21,7 @@ class NewsController extends Controller
 
     public function index()
     {
-        return NewsResource::collection($this->newsRepository->all());
+        return NewsResource::collection($this->newsRepository->paginate(request('page')));
     }
 
     public function show(int $id)
