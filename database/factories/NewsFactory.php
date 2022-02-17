@@ -26,7 +26,7 @@ class NewsFactory extends Factory
     {
         return [
             'title' => $this->faker->title,
-            'text' => $this->faker->paragraph,
+            'text' => $this->faker->realText(1000),
 //            'title' => $this->faker->name(),
 //            'description' => $this->faker->text(255),
 //            'body' => $this->faker->realText(1000),
