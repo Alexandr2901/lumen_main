@@ -18,5 +18,5 @@ interface BaseRepositoryContract
 
     public function all(): Collection;
 
-    public function paginate(int $count,int $page): LengthAwarePaginator;
+    public function paginate(int $page,int $count): LengthAwarePaginator;
 }

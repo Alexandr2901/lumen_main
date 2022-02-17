@@ -41,8 +41,8 @@ class BaseRepository implements BaseRepositoryContract
         return $this->model->all();
     }
 
-    public function paginate($count = 15,
-                             $page = null
+    public function paginate($page = null,
+                             $count = 15
     ): LengthAwarePaginator
     {
         return $this->model->paginate($count, ['*'], 'page', $page);

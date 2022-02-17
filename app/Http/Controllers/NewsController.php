@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\NewsRepositoryContract;
 use App\Contracts\Services\NewsServiceContract;
+use App\Http\Requests\News\IndexRequest;
 use App\Http\Requests\News\StoreRequest;
 use App\Http\Requests\News\UpdateRequest;
 use App\Http\Resources\NewsResource;
-
-//use App\Http\Requests\News\StoreRequest;
 
 class NewsController extends Controller
 {
@@ -16,12 +15,14 @@ class NewsController extends Controller
     {
         $this->newsRepository = $newsRepository;
         $this->newsService = $newsService;
-
     }
 
-    public function index()
+    public function index(IndexRequest $request)
     {
-        return NewsResource::collection($this->newsRepository->paginate(request('page')));
+        return NewsResource::collection($this->newsRepository->paginate(
+            $request->input('page'),
+            $request->input('count'),
+        ));
     }
 
     public function show(int $id)
