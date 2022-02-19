@@ -14,7 +14,7 @@ class NewsControllerTest extends TestCase
 
     public function testIndexSuccess()
     {
-        $this->get('/api/news?page=3&count=30');
+        $this->get('/api/news?page=3&count=30&users[0]=1&tags[0]=omnis');
 //        $this->get('/api/news');
 
         $this->seeJsonStructure([

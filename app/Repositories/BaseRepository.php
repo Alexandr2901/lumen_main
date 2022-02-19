@@ -4,10 +4,10 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\BaseRepositoryContract;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
-class BaseRepository implements BaseRepositoryContract
+abstract class BaseRepository implements BaseRepositoryContract
 {
     protected $model;
 
@@ -43,8 +43,8 @@ class BaseRepository implements BaseRepositoryContract
 
     public function paginate($page = null,
                              $count = 15
-    ): LengthAwarePaginator
+    ): Paginator
     {
-        return $this->model->paginate($count, ['*'], 'page', $page);
+        return $this->model->simplePaginate($count, ['*'], 'page', $page);
     }
 }

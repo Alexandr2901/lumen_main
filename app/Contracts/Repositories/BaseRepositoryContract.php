@@ -3,7 +3,7 @@
 namespace App\Contracts\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
 interface BaseRepositoryContract
@@ -18,5 +18,5 @@ interface BaseRepositoryContract
 
     public function all(): Collection;
 
-    public function paginate(int $page,int $count): LengthAwarePaginator;
+    public function paginate(int $page, int $count): Paginator;
 }

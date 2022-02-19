@@ -25,8 +25,6 @@ class AuthController extends Controller
         $data['remember_token'] = hash('sha256', Str::random(60));
         $user = $this->userRepository->create($data);
 
-        var_dump($user);
-
         return response()->json(['data' => [
             'user' => new UserResource($user),
             'token' => $data['remember_token'],
@@ -60,6 +58,5 @@ class AuthController extends Controller
     {
         $request->user()->remember_token = null;
         return $request->user()->save();
-//        return !$request->user()->remember_token = null;
     }
 }

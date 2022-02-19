@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\NewsRepositoryContract;
 use App\Models\News;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
 
 class NewsRepository extends BaseRepository implements NewsRepositoryContract
@@ -14,17 +14,26 @@ class NewsRepository extends BaseRepository implements NewsRepositoryContract
         $this->model = $model;
     }
 
-    public function paginate($page = null,
-                             $count = 15
-
-    ): LengthAwarePaginator
+    public function paginateAndFilter(int $page = null, int $count = 15, array $users = null, array $tags = null): Paginator
     {
         return Cache::tags(['news', 'tags'])->remember(
-            'paginate/' . implode('/', func_get_args()),
+            'paginateAndFilter/' . json_encode(func_get_args()),
             3600,
-            function () use ($count, $page) {
-                return $this->model->query()
-                    ->paginate($count, ['*'], 'page', $page);
+            function () use ($count, $page, $users, $tags) {
+                $query = $this->model->query()->with(['tags', 'users']);
+                if ($users) {
+                    $query->whereHas('users', function ($query) use ($users) {
+                        $query->whereIn('id', $users);
+                    });
+                }
+                if ($tags) {
+                    $query->whereHas('tags', function ($query) use ($tags) {
+                        $query->whereIn('name', $tags);
+                    });
+                }
+                return $query
+                    ->latest()
+                    ->simplePaginate($count, ['*'], 'page', $page);
             });
     }
 }

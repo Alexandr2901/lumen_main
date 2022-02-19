@@ -19,9 +19,11 @@ class NewsController extends Controller
 
     public function index(IndexRequest $request)
     {
-        return NewsResource::collection($this->newsRepository->paginate(
+        return NewsResource::collection($this->newsRepository->paginateAndFilter(
             $request->input('page'),
             $request->input('count'),
+            $request->input('users'),
+            $request->input('tags'),
         ));
     }
 

@@ -12,6 +12,8 @@ class IndexRequest extends AbstractFormRequest
         return [
             'page' => 'integer',
             'count' => 'integer',
+            'tags.*' => 'string',
+            'users.*' => 'int',
         ];
     }
 }
