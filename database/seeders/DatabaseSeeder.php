@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(10)->create();
         User::factory()->create(['email' => 'admin', 'password' => 'admin']);
         News::factory()->count(1000)->create();
+        User::factory()->count(10)->create();
 
         // $this->call('UsersTableSeeder');
     }

@@ -44,7 +44,7 @@ class NewsFactory extends Factory
         })->afterCreating(function (News $news) {
             $news->users()->sync(
                 User::inRandomOrder()
-                    ->take(random_int(2, 5))
+                    ->take(random_int(1, 3))
                     ->get()
                     ->pluck("id")
             );

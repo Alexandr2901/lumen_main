@@ -17,6 +17,7 @@
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'news'], function () use ($router) {
+        $router->get('/filters', 'NewsController@filters');
         $router->get('/', 'NewsController@index');
         $router->post('/', ['middleware' => 'auth', 'uses' => 'NewsController@store']);
         $router->get('/{id}', 'NewsController@show');

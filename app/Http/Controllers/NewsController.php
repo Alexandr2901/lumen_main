@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\NewsRepositoryContract;
+use App\Contracts\Services\FiltersServiceContract;
 use App\Contracts\Services\NewsServiceContract;
 use App\Http\Requests\News\IndexRequest;
 use App\Http\Requests\News\StoreRequest;
@@ -11,10 +12,15 @@ use App\Http\Resources\NewsResource;
 
 class NewsController extends Controller
 {
-    public function __construct(NewsRepositoryContract $newsRepository, NewsServiceContract $newsService)
+    public function __construct(NewsRepositoryContract $newsRepository,
+                                NewsServiceContract    $newsService,
+                                FiltersServiceContract $filtersService
+    )
     {
         $this->newsRepository = $newsRepository;
         $this->newsService = $newsService;
+        $this->filtersService = $filtersService;
+
     }
 
     public function index(IndexRequest $request)
@@ -25,6 +31,11 @@ class NewsController extends Controller
             $request->input('users'),
             $request->input('tags'),
         ));
+    }
+
+    public function filters()
+    {
+        return $this->filtersService->get();
     }
 
     public function show(int $id)
