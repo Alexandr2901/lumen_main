@@ -32,7 +32,7 @@ class NewsRepository extends BaseRepository implements NewsRepositoryContract
                     });
                 }
                 return $query
-                    ->latest()
+//                    ->orderBy('created_at')
                     ->simplePaginate($count, ['*'], 'page', $page);
             });
     }
