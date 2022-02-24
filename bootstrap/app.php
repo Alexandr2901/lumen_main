@@ -110,9 +110,9 @@ $app->register(Illuminate\Redis\RedisServiceProvider::class);
 | can respond to, as well as the controllers that may handle them.
 |
 */
-if(env('APP_DEBUG')) {
-    require __DIR__ . '/../bootstrap/dev.php';
-}
+//if(env('APP_DEBUG')) {
+//    require __DIR__ . '/../bootstrap/dev.php';
+//}
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
