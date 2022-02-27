@@ -8,6 +8,7 @@ use App\Http\Requests\User\StoreRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -58,5 +59,15 @@ class AuthController extends Controller
     {
         $request->user()->remember_token = null;
         return $request->user()->save();
+    }
+
+    public function setToken(Request $request): bool
+    {
+//        var_dump([$request->input('token'),$request->input('id')]);
+        return Cache::put($request->input('token'),
+            $request->input('id'),1800);
+//        return 'good';
+//        $request->user()->remember_token = null;
+//        return $request->user()->save();
     }
 }

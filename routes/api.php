@@ -26,6 +26,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     $router->group(['prefix' => 'auth'], function () use ($router) {
+        $router->post('/set-token', 'AuthController@setToken');
         $router->post('/login', 'AuthController@login');
         $router->post('/', 'AuthController@store');
         $router->post('/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logOut']);
