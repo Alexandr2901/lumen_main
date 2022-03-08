@@ -63,20 +63,8 @@ class AuthController extends Controller
 
     public function setToken(Request $request)
     {
-//        return response()->json(['data' => [
-//            'success' => true, 'token' => '$user->remember_token']], 200);
-
-//        return response()->json(
-//            ['answer'=>Cache::put($request->input('token'),
-//            $request->input('id'),1800)]);
-
-//        return [$request->input('token'),$request->input('id')];
-
-        return Cache::put($request->input('token'),
+         Cache::put($request->input('token'),
             $request->input('id'),1800);
-
-        //        return ['123'=>'good'];
-//        $request->user()->remember_token = null;
-//        return $request->user()->save();
+return $request->input('id');
     }
 }
